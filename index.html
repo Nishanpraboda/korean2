@@ -6,268 +6,245 @@
     <title>Korean Study Master</title>
     <style>
         :root {
-            --primary: #6c5ce7;
-            --secondary: #00b894;
-            --bg: #f0f2f5;
-            --text-main: #2d3436;
-            --card-bg: white;
-            --dashed-border: #ddd;
-            --toggle-bg: #ccc;
-            --toggle-active: #fff;
-            --dropdown-bg: #fff;
-            --dropdown-hover: #f1f2f6;
+            --primary: #6c5ce7; --secondary: #00b894; --bg: #f0f2f5;
+            --text-main: #2d3436; --card-bg: white; --dashed-border: #ddd;
+            --toggle-bg: #ccc; --toggle-active: #fff;
+            --color-time: #6c5ce7; --color-pure: #0984e3;
+            --color-sino: #e84393; --color-days: #e67e22; 
+            --color-math: #27ae60; --color-colors: #2980b9; /* වර්ණ සඳහා පාට */
         }
 
         [data-theme="dark"] {
-            --primary: #a29bfe;
-            --bg: #1a1a2e;
-            --text-main: #f0f2f5;
-            --card-bg: #16213e;
-            --dashed-border: #444;
-            --toggle-bg: #34495e;
-            --toggle-active: #1a1a2e;
-            --dropdown-bg: #2d3436;
-            --dropdown-hover: #3d3d5c;
+            --bg: #1a1a2e; --text-main: #f0f2f5; --card-bg: #16213e;
+            --dashed-border: #444; --toggle-bg: #34495e; --toggle-active: #1a1a2e;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            background-color: var(--bg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-            transition: all 0.3s ease;
+            font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--bg);
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            overflow: hidden; transition: 0.5s;
         }
-
-        .header-controls {
-            position: fixed;
-            top: 20px;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            box-sizing: border-box;
-            z-index: 1000;
-        }
-
-        /* Dropdown Styling */
-        .custom-dropdown { position: relative; display: inline-block; width: 130px; }
-        .dropdown-selected {
-            background: var(--dropdown-bg); color: var(--text-main);
-            padding: 8px 12px; border-radius: 12px; border: 1px solid var(--dashed-border);
-            cursor: pointer; font-weight: 600; font-size: 14px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .dropdown-options {
-            position: absolute; top: 110%; left: 0; width: 100%;
-            background: var(--dropdown-bg); border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            display: none; z-index: 10; border: 1px solid var(--dashed-border);
-        }
-        .dropdown-option { padding: 10px 15px; cursor: pointer; color: var(--text-main); font-size: 14px; transition: 0.2s; }
-        .dropdown-option:hover { background: var(--dropdown-hover); color: var(--primary); }
-        .dropdown-options.show { display: block; }
 
         #app-container {
-            width: 85%;
-            max-width: 380px;
-            background-color: var(--card-bg);
-            padding: 35px 25px;
-            border-radius: 30px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-            text-align: center;
-            position: relative;
-            transition: all 0.3s ease;
+            width: 85%; max-width: 380px; background-color: var(--card-bg);
+            padding: 35px 25px; border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            text-align: center; position: relative;
         }
-        
+
         .menu-btn {
             display: block; width: 100%; padding: 18px; margin: 12px 0; border: none;
-            border-radius: 15px; background: var(--primary); color: white;
-            font-size: 17px; font-weight: bold; cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: 0.3s ease;
+            border-radius: 15px; color: white; font-size: 17px; font-weight: bold;
+            cursor: pointer; transition: 0.3s;
         }
-        .menu-btn:active { transform: scale(0.97); }
+        .menu-btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
         
-        .card { display: none; }
+        #btn-time { background: var(--color-time); }
+        #btn-pure { background: var(--color-pure); }
+        #btn-sino { background: var(--color-sino); }
+        #btn-days { background: var(--color-days); }
+        #btn-math { background: var(--color-math); }
+        #btn-colors { background: var(--color-colors); }
+
+        .card { display: none; position: relative; }
+
+        .info-icon {
+            position: absolute; top: -5px; right: 0;
+            width: 25px; height: 25px; border: 2px solid var(--text-main); color: var(--text-main);
+            border-radius: 50%; font-weight: bold; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; font-size: 14px; opacity: 0.6;
+        }
         
         .display-box {
-            min-height: 250px; display: flex; flex-direction: column;
+            min-height: 220px; display: flex; flex-direction: column;
             justify-content: center; align-items: center; cursor: pointer;
             border: 2px dashed var(--dashed-border); border-radius: 20px;
-            margin-bottom: 25px; background: rgba(255, 255, 255, 0.02);
-            padding: 15px;
+            margin-bottom: 25px; padding: 15px;
         }
+
+        #main-display { font-size: 40px; font-weight: bold; color: var(--text-main); margin-bottom: 10px; }
+        #secondary-display { font-size: 24px; color: var(--primary); font-weight: bold; min-height: 30px; opacity: 0; transition: 0.3s; }
+        #answer-display { font-size: 22px; color: var(--secondary); font-weight: 600; margin-top: 15px; transition: 0.3s; }
         
-        #main-display { font-size: 55px; font-weight: bold; color: var(--text-main); }
-        #image-display { max-width: 200px; max-height: 200px; display: none; margin-bottom: 10px; border-radius: 10px; }
-        #answer-display { 
-            font-size: 20px; color: var(--secondary); font-weight: 600; 
-            margin-top: 15px; line-height: 1.4; opacity: 0.5;
-        }
-        
-        .next-btn { background: var(--secondary); color: white; border: none; padding: 16px; border-radius: 12px; font-size: 17px; font-weight: bold; cursor: pointer; width: 100%; }
+        .next-btn { background: var(--secondary); color: white; border: none; padding: 16px; border-radius: 12px; font-size: 17px; font-weight: bold; width: 100%; cursor: pointer; }
         .back-btn { background: transparent; color: var(--text-main); border: none; padding: 10px; cursor: pointer; margin-top: 15px; text-decoration: underline; font-size: 14px; opacity: 0.7; }
 
-        .watermark { position: fixed; bottom: 20px; width: 100%; text-align: center; font-size: 11px; color: var(--text-main); opacity: 0.4; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; pointer-events: none; }
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
+        .modal-content { background: var(--card-bg); color: var(--text-main); padding: 25px; border-radius: 20px; width: 80%; max-width: 320px; text-align: left; }
+        .close-modal { background: var(--primary); color: white; border: none; padding: 10px; width: 100%; border-radius: 10px; margin-top: 15px; cursor: pointer; }
 
-        /* Toggle Switch */
-        .switch { position: relative; display: inline-block; width: 55px; height: 30px; }
+        .switch { position: absolute; top: 20px; right: 20px; display: inline-block; width: 55px; height: 30px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--toggle-bg); transition: .4s; border-radius: 34px; display: flex; align-items: center; justify-content: space-between; padding: 0 6px; }
         .slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 4px; bottom: 4px; background-color: var(--toggle-active); transition: .4s; border-radius: 50%; z-index: 2; }
         input:checked + .slider { background-color: var(--primary); }
-        input:checked + .slider:before { transform: translateX(25px); }
+        .watermark { position: fixed; bottom: 20px; width: 100%; text-align: center; font-size: 11px; color: var(--text-main); opacity: 0.4; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
-<div class="header-controls">
-    <div class="custom-dropdown" id="dropdown">
-        <div class="dropdown-selected" onclick="toggleDropdown()">
-            <span id="current-lang-text">Sinhala</span>
-            <span>▼</span>
-        </div>
-        <div class="dropdown-options" id="dropdown-options">
-            <div class="dropdown-option" onclick="changeLang('si', 'Sinhala')">Sinhala</div>
-            <div class="dropdown-option" onclick="changeLang('en', 'English')">English</div>
-            <div class="dropdown-option" onclick="changeLang('ko', 'Korean')">Korean</div>
-        </div>
+<div id="infoModal" class="modal">
+    <div class="modal-content">
+        <h4 id="modalTitle">Info</h4>
+        <p id="modalDesc"></p>
+        <ul id="modalList"></ul>
+        <button class="close-modal" onclick="closeInfo()">වැහුණා (Close)</button>
     </div>
-
-    <label class="switch">
-        <input type="checkbox" id="theme-checkbox">
-        <span class="slider">
-            <span style="font-size:12px">☀️</span>
-            <span style="font-size:12px">🌙</span>
-        </span>
-    </label>
 </div>
+
+<label class="switch">
+    <input type="checkbox" id="theme-checkbox">
+    <span class="slider"><span style="font-size:12px">☀️</span><span style="font-size:12px">🌙</span></span>
+</label>
 
 <div id="app-container">
     <div id="menu-page">
-        <button class="menu-btn" id="btn-time" onclick="startApp('time')">වෙලාව කියවමු (Time)</button>
-        <button class="menu-btn" id="btn-native" onclick="startApp('native')">ගණන් කරමු (Native)</button>
-        <button class="menu-btn" id="btn-sino" onclick="startApp('sino')">අංක සහ ඉලක්කම් (Sino)</button>
-        <button class="menu-btn" id="btn-skill" onclick="startApp('skill')">Skill Student (සංඥා)</button>
+        <button class="menu-btn" id="btn-time" onclick="startApp('time')">වෙලාව (Time)</button>
+        <button class="menu-btn" id="btn-pure" onclick="startApp('pure')">PURE KOREAN අංක</button>
+        <button class="menu-btn" id="btn-sino" onclick="startApp('sino')">SINO KOREAN අංක</button>
+        <button class="menu-btn" id="btn-days" onclick="startApp('days')">සතියේ දවස් (Days)</button>
+        <button class="menu-btn" id="btn-math" onclick="startApp('math')">සරල ගණිතය (Math)</button>
+        <button class="menu-btn" id="btn-colors" onclick="startApp('colors')">වර්ණ (Colors)</button>
     </div>
 
     <div id="study-page" class="card">
-        <h3 id="mode-title" style="color:var(--primary); margin: 0 0 20px 0;">Mode</h3>
-        <div class="display-box" onclick="showAnswer()">
-            <img id="image-display" src="" alt="Sign">
+        <div class="info-icon" onclick="openInfo()">i</div>
+        <h3 id="mode-title" style="margin: 0 0 20px 0;">Mode</h3>
+        <div class="display-box" id="card-box" onclick="handleBoxClick()">
             <div id="main-display">?</div>
+            <div id="secondary-display"></div>
             <div id="answer-display">ටච් කරන්න</div>
         </div>
-        <button class="next-btn" id="btn-next" onclick="generateQuestion()">ඊළඟ එක</button>
-        <button class="back-btn" id="btn-back" onclick="showMenu()">ප්‍රධාන මෙනුවට</button>
+        <button class="next-btn" onclick="generateQuestion()">ඊළඟ එක</button>
+        <button class="back-btn" onclick="showMenu()">ප්‍රධාන මෙනුවට</button>
     </div>
 </div>
 
-<div class="watermark">Korean with leen thilina</div>
+<div class="watermark">KOREAN WITH LEEN THILINA</div>
 
 <script>
     let currentMode = '';
     let currentAnswer = '';
-    let activeLang = 'si';
+    let currentSecondary = '';
+    let clickStep = 0;
 
-    const translations = {
-        si: { time: "වෙලාව කියවමු", native: "ගණන් කරමු (Native)", sino: "අංක සහ ඉලක්කම් (Sino)", skill: "Skill Student (සංඥා)", touch: "ටච් කරන්න", next: "ඊළඟ එක", back: "ප්‍රධාන මෙනුවට", modeTime: "වෙලාව කියවමු", modeNative: "Native Korean (1-10)", modeSino: "Sino Korean (1-10)", modeSkill: "Skill Test Signs" },
-        en: { time: "Tell Time", native: "Counting (Native)", sino: "Numbers (Sino)", skill: "Skill Student (Signs)", touch: "Touch to reveal", next: "Next One", back: "Back to Menu", modeTime: "Tell the Time", modeNative: "Native Korean (1-10)", modeSino: "Sino-Korean (1-10)", modeSkill: "Skill Test Signs" },
-        ko: { time: "시간 읽기", native: "수 세기 (순수)", sino: "숫자 (한자어)", skill: "기능 시험 (표지판)", touch: "터치하여 확인", next: "다음", back: "메인 메뉴로", modeTime: "시간 읽기", modeNative: "순수 한국어 숫자", modeSino: "한자어 숫자", modeSkill: "기능 시험 표지판" }
+    const infoData = {
+        pure: { title: "Pure Korean", desc: "ගණන් කිරීමට සහ වයස පැවසීමට භාවිතා කරයි.", uses: ["Age", "Animals/People", "Hours", "Objects"] },
+        sino: { title: "Sino Korean", desc: "දුරකථන අංක, මුදල් සහ දිනයන් සඳහා භාවිතා වේ.", uses: ["Phone Numbers", "Money", "Dates/Minutes", "Floors"] },
+        time: { title: "Time", desc: "පැය සඳහා Pure ද, විනාඩි සඳහා Sino ද යොදා ගනී.", uses: ["පැය -> Pure", "විනාඩි -> Sino"] },
+        days: { title: "Days", desc: "සතියේ දවස් 'Yoil' වලින් අවසන් වේ.", uses: ["Monday - Sunday"] },
+        math: { title: "Math (Sino)", desc: "ගණිතයේදී Sino Korean භාවිතා වේ.", uses: ["+ (Deohagi)", "- (Ppaegi)"] },
+        colors: { title: "Colors (색깔)", desc: "වර්ණ හැඳින්වීමේදී නාම පද (Noun) ලෙස හෝ නාම විශේෂණ (Adjective) ලෙස භාවිතා කළ හැක.", uses: ["පොදු වර්ණ 10ක්", "Noun + 색 (Saek)"] }
     };
+
+    const sinoMap = { 0:"공", 1:"일", 2:"이", 3:"삼", 4:"사", 5:"오", 6:"육", 7:"칠", 8:"팔", 9:"구", 10:"십" };
+
+    function getSino(num) {
+        if (num <= 10) return sinoMap[num];
+        if (num < 100) {
+            let tens = Math.floor(num / 10);
+            let ones = num % 10;
+            let res = (tens === 1 ? "" : sinoMap[tens]) + "십";
+            if (ones !== 0) res += sinoMap[ones];
+            return res;
+        }
+        return num;
+    }
 
     const data = {
-        native: [ {n: "1", k: "하나 (Hana)"}, {n: "2", k: "둘 (Dul)"}, {n: "3", k: "셋 (Set)"}, {n: "4", k: "넷 (Net)"}, {n: "5", k: "다섯 (Daseot)"}, {n: "6", k: "여섯 (Yeoseot)"}, {n: "7", k: "일곱 (Ilgop)"}, {n: "8", k: "여덟 (Yeodeol)"}, {n: "9", k: "아홉 (Ahop)"}, {n: "10", k: "열 (Yeol)"} ],
+        pure: [ {n: "1", k: "하나 (Hana)"}, {n: "2", k: "둘 (Dul)"}, {n: "3", k: "셋 (Set)"}, {n: "4", k: "넷 (Net)"}, {n: "5", k: "다섯 (Daseot)"}, {n: "6", k: "여섯 (Yeoseot)"}, {n: "7", k: "일곱 (Ilgop)"}, {n: "8", k: "여덟 (Yeodeol)"}, {n: "9", k: "아홉 (Ahop)"}, {n: "10", k: "열 (Yeol)"} ],
         sino: [ {n: "1", k: "일 (Il)"}, {n: "2", k: "이 (I)"}, {n: "3", k: "삼 (Sam)"}, {n: "4", k: "사 (Sa)"}, {n: "5", k: "오 (O)"}, {n: "6", k: "육 (Yuk)"}, {n: "7", k: "칠 (Chil)"}, {n: "8", k: "팔 (Pal)"}, {n: "9", k: "구 (Gu)"}, {n: "10", k: "십 (Sip)"} ],
-        skill: [
-            {img: "smoke.png", k: "금연", d: "담배를 피우지 마시오"}, // පින්තූරයේ නම 'smoke.png' ලෙස උපකල්පනය කෙරේ
-            // අනෙකුත් පින්තූර සඳහා තොරතුරු පසුව මෙහි එකතු කළ හැක
+        days: [ {n: "ඉරිදා", k: "일요일 (Iryoil)"}, {n: "සඳුදා", k: "월요일 (Woryoil)"}, {n: "අඟහරුවාදා", k: "화요일 (Hwayoil)"}, {n: "බදාදා", k: "수요일 (Suyoil)"}, {n: "බ්‍රහස්පතින්දා", k: "목요일 (Mogyoil)"}, {n: "සිකුරාදා", k: "금요일 (Geumyoil)"}, {n: "සෙනසුරාදා", k: "토요일 (Toyoil)"} ],
+        colors: [
+            {n: "රතු", k: "빨간색 (Ppalgan-saek)"},
+            {n: "නිල්", k: "파란색 (Paran-saek)"},
+            {n: "කහ", k: "노란색 (Noran-saek)"},
+            {n: "කොළ", k: "초록색 (Chorok-saek)"},
+            {n: "සුදු", k: "하얀색 (Hayan-saek)"},
+            {n: "කළු", k: "검정색 (Geomjeong-saek)"},
+            {n: "තැඹිලි", k: "주황색 (Juhwang-saek)"},
+            {n: "දම්", k: "보라색 (Bora-saek)"},
+            {n: "රෝස", k: "분홍색 (Bunhong-saek)"},
+            {n: "දුඹුරු", k: "갈색 (Gal-saek)"}
         ],
-        hNative: ["", "한", "두", "세", "네", "다섯", "여섯", "일곱", "여덟", "아홉", "열", "열한", "열두"],
-        hEng: ["", "Han", "Du", "Se", "Ne", "Daseot", "Yeoseot", "Ilgop", "Yeodeol", "Ahop", "Yeol", "Yeol-han", "Yeol-du"],
-        mSino: { 10: {k: "십", e: "sip"}, 20: {k: "이십", e: "i-sip"}, 30: {k: "삼십", e: "samsip"}, 40: {k: "사십", e: "sasip"}, 50: {k: "오십", e: "osip"} }
+        hNative: ["", "한", "두", "세", "네", "다섯", "여섯", "일곱", "여덟", "아홉", "열", "열한", "열두"]
     };
-
-    function toggleDropdown() { document.getElementById('dropdown-options').classList.toggle('show'); }
-    function changeLang(langCode, langName) {
-        activeLang = langCode;
-        document.getElementById('current-lang-text').innerText = langName;
-        document.getElementById('dropdown-options').classList.remove('show');
-        applyTranslations();
-    }
-    window.onclick = function(e) { if (!e.target.closest('.custom-dropdown')) document.getElementById('dropdown-options').classList.remove('show'); }
-
-    document.getElementById('theme-checkbox').addEventListener('change', (e) => {
-        document.body.setAttribute('data-theme', e.target.checked ? 'dark' : 'light');
-    });
-
-    function applyTranslations() {
-        const t = translations[activeLang];
-        document.getElementById('btn-time').innerText = t.time;
-        document.getElementById('btn-native').innerText = t.native;
-        document.getElementById('btn-sino').innerText = t.sino;
-        document.getElementById('btn-skill').innerText = t.skill;
-        document.getElementById('btn-next').innerText = t.next;
-        document.getElementById('btn-back').innerText = t.back;
-        if (currentMode) {
-            document.getElementById('mode-title').innerText = { 'time': t.modeTime, 'native': t.modeNative, 'sino': t.modeSino, 'skill': t.modeSkill }[currentMode];
-            if (document.getElementById('answer-display').style.opacity == "0.5") document.getElementById('answer-display').innerText = t.touch;
-        }
-    }
 
     function startApp(mode) {
         currentMode = mode;
+        const colors = { 'time': 'var(--color-time)', 'pure': 'var(--color-pure)', 'sino': 'var(--color-sino)', 'days': 'var(--color-days)', 'math': 'var(--color-math)', 'colors': 'var(--color-colors)' };
+        document.getElementById('mode-title').innerText = mode.toUpperCase().replace('COLORS', 'COLORS (වර්ණ)');
+        document.getElementById('mode-title').style.color = colors[mode];
         document.getElementById('menu-page').style.display = 'none';
         document.getElementById('study-page').style.display = 'block';
-        applyTranslations();
         generateQuestion();
     }
 
-    function showMenu() { document.getElementById('menu-page').style.display = 'block'; document.getElementById('study-page').style.display = 'none'; currentMode = ''; }
+    function showMenu() {
+        document.getElementById('menu-page').style.display = 'block';
+        document.getElementById('study-page').style.display = 'none';
+    }
 
     function generateQuestion() {
-        let display = document.getElementById('main-display');
-        let imgDisplay = document.getElementById('image-display');
-        let answerBox = document.getElementById('answer-display');
+        clickStep = 0;
+        const display = document.getElementById('main-display');
+        const secondaryDisplay = document.getElementById('secondary-display');
+        const answerBox = document.getElementById('answer-display');
         
-        answerBox.innerText = translations[activeLang].touch;
+        secondaryDisplay.style.opacity = "0";
+        answerBox.innerText = "ටච් කරන්න";
         answerBox.style.opacity = "0.5";
-        imgDisplay.style.display = "none";
-        display.style.display = "block";
 
-        if (currentMode === 'native' || currentMode === 'sino') {
+        if (currentMode === 'math') {
+            let a, b, op, result;
+            op = Math.random() > 0.5 ? '+' : '-';
+            if (op === '+') { a = Math.floor(Math.random() * 20) + 1; b = Math.floor(Math.random() * 10) + 1; }
+            else { let tens = [10, 20, 30, 40, 50]; a = tens[Math.floor(Math.random() * tens.length)]; b = Math.floor(Math.random() * 9) + 1; }
+            result = op === '+' ? a + b : a - b;
+            display.innerText = `${getSino(a)} ${op === '+' ? '더하기' : '빼기'} ${getSino(b)}`;
+            display.style.fontSize = "32px";
+            currentSecondary = `(${a} ${op} ${b})`;
+            currentAnswer = `${getSino(result)} (${result})`;
+        } else if (currentMode === 'time') {
+            display.style.fontSize = "50px";
+            let h = Math.floor(Math.random()*12)+1;
+            let m = Math.floor(Math.random()*6)*10;
+            display.innerText = `${h}:${m===0?'00':m}`;
+            currentAnswer = data.hNative[h] + " 시" + (m !== 0 ? " " + getSino(m) + " 분" : "");
+        } else {
+            display.style.fontSize = "50px";
             let item = data[currentMode][Math.floor(Math.random() * data[currentMode].length)];
             display.innerText = item.n;
             currentAnswer = item.k;
-        } 
-        else if (currentMode === 'time') {
-            let hour = Math.floor(Math.random() * 12) + 1;
-            let minute = Math.floor(Math.random() * 6) * 10;
-            display.innerText = `${hour}:${minute === 0 ? '00' : minute}`;
-            let korPart = data.hNative[hour] + " 시";
-            if (minute === 30) korPart += " 삼십 분 (반)";
-            else if (minute !== 0) korPart += " " + data.mSino[minute].k + " 분";
-            currentAnswer = korPart + "<br>(" + data.hEng[hour] + " si" + (minute === 0 ? "" : (minute === 30 ? " samsip-bun (ban)" : " " + data.mSino[minute].e + " bun")) + ")";
-        }
-        else if (currentMode === 'skill') {
-            let item = data.skill[Math.floor(Math.random() * data.skill.length)];
-            display.style.display = "none";
-            imgDisplay.src = item.img;
-            imgDisplay.style.display = "block";
-            currentAnswer = item.k + "<br><small>(" + item.d + ")</small>";
         }
     }
 
-    function showAnswer() {
+    function handleBoxClick() {
+        const secondaryDisplay = document.getElementById('secondary-display');
         const answerBox = document.getElementById('answer-display');
-        answerBox.innerHTML = currentAnswer;
-        answerBox.style.opacity = "1";
+        if (currentMode === 'math' && clickStep === 0) {
+            secondaryDisplay.innerText = currentSecondary;
+            secondaryDisplay.style.opacity = "1";
+            clickStep = 1;
+        } else {
+            answerBox.innerHTML = currentAnswer;
+            answerBox.style.opacity = "1";
+        }
     }
+
+    function openInfo() {
+        const info = infoData[currentMode];
+        document.getElementById('modalTitle').innerText = info.title;
+        document.getElementById('modalDesc').innerText = info.desc;
+        const list = document.getElementById('modalList');
+        list.innerHTML = "";
+        info.uses.forEach(u => { let li = document.createElement("li"); li.innerText = u; list.appendChild(li); });
+        document.getElementById('infoModal').style.display = 'flex';
+    }
+
+    function closeInfo() { document.getElementById('infoModal').style.display = 'none'; }
+    document.getElementById('theme-checkbox').addEventListener('change', (e) => {
+        document.body.setAttribute('data-theme', e.target.checked ? 'dark' : 'light');
+    });
 </script>
 </body>
 </html>
